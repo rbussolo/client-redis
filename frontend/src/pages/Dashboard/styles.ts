@@ -43,6 +43,9 @@ export const DashboardText = styled.div`
   border: 1px solid ${props => props.theme['gray-200']};
   background-color: ${props => props.theme['gray-100']};
 
+  height: 2.375rem;
+  overflow: hidden;
+  
   padding: 0.5rem;
 `;
 

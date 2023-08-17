@@ -2,7 +2,7 @@ import { ButtonIcon, DashboardBody, DashboardContainer, DashboardFooter, Dashboa
 
 import { Logout, GetKeys, SetKey, DelKey, DeleteAllKeys } from '../../../wailsjs/go/main/App';
 
-import { ArrowsClockwise, SignOut, ArrowFatLinesRight, Pencil, Trash } from '@phosphor-icons/react';
+import { ArrowsClockwise, SignOut, ArrowFatLinesRight, Pencil, Trash, ClipboardText } from '@phosphor-icons/react';
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -82,6 +82,10 @@ export function Dashboard(){
     });
   }
 
+  function handleCopy(value: string) {
+    navigator.clipboard.writeText(value);
+  }
+
   useEffect(() => {
     loadAllKey();
   }, []);
@@ -127,6 +131,14 @@ export function Dashboard(){
                 <DashboardText style={{flex: 1}}>
                   {keyValue.value}
                 </DashboardText>
+
+                <ButtonIcon
+                  type="button"
+                  buttoncolor="blue"
+                  onClick={() => handleCopy(keyValue.value)}
+                >
+                  <ClipboardText size={20} weight="fill" />
+                </ButtonIcon>
 
                 <ButtonIcon
                   type="button"
