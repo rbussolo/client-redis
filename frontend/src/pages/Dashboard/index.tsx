@@ -1,4 +1,4 @@
-import { ButtonIcon, DashboardBody, DashboardContainer, DashboardFooter, DashboardHeader, DashboardRow, DashboardText, InputGroup } from "./styles";
+import { ButtonIcon, DashboardBody, DashboardContainer, DashboardFooter, DashboardHeader, DashboardRow, DashboardText, DashboardTextIcon, InputGroup } from "./styles";
 
 import { Logout, GetKeys, SetKey, DelKey, DeleteAllKeys } from '../../../wailsjs/go/main/App';
 
@@ -82,8 +82,12 @@ export function Dashboard(){
     });
   }
 
-  function handleCopy(value: string) {
+  function handleCopyValue(value: string) {
     navigator.clipboard.writeText(value);
+  }
+
+  function handleCopyKey(key: string) {
+    navigator.clipboard.writeText(key);
   }
 
   useEffect(() => {
@@ -126,6 +130,12 @@ export function Dashboard(){
               <DashboardRow key={keyValue.key}>
                 <DashboardText style={{width: 200}}>
                   {keyValue.key}
+                  <DashboardTextIcon 
+                    type="button"
+                    onClick={() => handleCopyKey(keyValue.key)}
+                  >
+                    <ClipboardText size={15} weight="fill" />
+                  </DashboardTextIcon>
                 </DashboardText>
 
                 <DashboardText style={{flex: 1}}>
@@ -135,7 +145,7 @@ export function Dashboard(){
                 <ButtonIcon
                   type="button"
                   buttoncolor="blue"
-                  onClick={() => handleCopy(keyValue.value)}
+                  onClick={() => handleCopyValue(keyValue.value)}
                 >
                   <ClipboardText size={20} weight="fill" />
                 </ButtonIcon>
