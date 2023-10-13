@@ -5,12 +5,16 @@ import { Logout, GetKeys, SetKey, DelKey, DeleteAllKeys } from '../../../wailsjs
 import { ArrowsClockwise, SignOut, ArrowFatLinesRight, Pencil, Trash, ClipboardText } from '@phosphor-icons/react';
 import { useEffect, useState } from "react";
 
+import { formatDistance } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../components/Loading";
 
 interface KeyValue {
   key: string;
   value: string;
+  expireAt: string;
 }
 
 export function Dashboard(){
@@ -126,6 +130,11 @@ export function Dashboard(){
 
         <DashboardBody>
           { keyValues.map(keyValue => {
+            const expireAt = keyValue.expireAt.length ? formatDistance(new Date(keyValue.expireAt), new Date(), {
+              includeSeconds: true,
+              locale: ptBR
+            }) : "Infinito";
+
             return (
               <DashboardRow key={keyValue.key}>
                 <DashboardText style={{width: 200}}>
@@ -140,6 +149,10 @@ export function Dashboard(){
 
                 <DashboardText style={{flex: 1}}>
                   {keyValue.value}
+                </DashboardText>
+
+                <DashboardText style={{ width: 150 }}>
+                  {expireAt}
                 </DashboardText>
 
                 <ButtonIcon

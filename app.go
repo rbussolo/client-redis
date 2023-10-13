@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -45,8 +46,9 @@ func (a *App) Logout() error {
 }
 
 type KeyValue struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key      string `json:"key"`
+	Value    string `json:"value"`
+	ExpireAt string `json:"expireAt"`
 }
 
 func (a *App) GetKeys() ([]KeyValue, error) {
@@ -64,15 +66,24 @@ func (a *App) GetKeys() ([]KeyValue, error) {
 		}
 
 		for _, key := range keys {
+			expireAt := ""
 			value, err := rdb.Get(a.ctx, key).Result()
 
 			if err != nil {
 				return keyValues, err
 			}
 
+			duration, _ := rdb.ExpireTime(a.ctx, key).Result()
+
+			if duration.Seconds() > 0 {
+				expire := time.Unix(duration.Milliseconds()/1000, 0)
+				expireAt = expire.String()
+			}
+
 			var keyValue = KeyValue{
-				Key:   key,
-				Value: value,
+				Key:      key,
+				Value:    value,
+				ExpireAt: expireAt,
 			}
 
 			keyValues = append(keyValues, keyValue)
