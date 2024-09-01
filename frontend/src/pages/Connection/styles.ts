@@ -36,11 +36,65 @@ export const InputGroup = styled.div`
   flex-direction: column;
   gap: 0.25rem;
 
-  input {
+  input, select {
     border: 1px solid ${props => props.theme['gray-300']};
     border-radius: 8px;
 
     padding: 0.5rem;
+  }
+
+  select {
+    flex-grow: 1;
+    font-size: 1rem;
+  }
+
+  div {
+    display: flex;
+    gap: 0.5rem;
+  }
+`
+
+export const EditButton = styled.button`
+  padding-left: 5px;
+  padding-right: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #fff;
+  background-color: ${props => props.theme['green-500']};
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${props => props.theme['green-700']};
+  }
+`
+
+export const DeleteButton = styled.button`
+  padding-left: 5px;
+  padding-right: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #fff;
+  background-color: ${props => props.theme['red-500']};
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${props => props.theme['red-700']};
   }
 `
 
