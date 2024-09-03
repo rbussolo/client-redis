@@ -61,9 +61,24 @@ export function Dashboard(){
     loadAllKey();
   }
 
+  function isJson(value: string): boolean {
+    try {
+      JSON.parse(value);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
+
   function handleEdit(key: string, value: string) {
-    setKey(key);
-    setValue(value);
+    // Check if it's a json
+    if (isJson(value)) {
+      navigate(`/edit/${key}`);
+    } else {
+      setKey(key);
+      setValue(value);
+    }
   }
 
   function handleRemove(key: string) {

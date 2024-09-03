@@ -8,6 +8,8 @@ export function DelKey(arg1:string):Promise<void>;
 
 export function DeleteAllKeys():Promise<void>;
 
+export function GetKey(arg1:string):Promise<main.KeyValue>;
+
 export function GetKeys():Promise<Array<main.KeyValue>>;
 
 export function Logout():Promise<void>;

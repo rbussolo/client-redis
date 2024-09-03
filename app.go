@@ -97,6 +97,30 @@ func (a *App) GetKeys() ([]KeyValue, error) {
 	return keyValues, nil
 }
 
+func (a *App) GetKey(key string) (KeyValue, error) {
+	var keyValue = KeyValue{}
+	var expireAt = ""
+
+	value, err := rdb.Get(a.ctx, key).Result()
+
+	if err != nil {
+		return keyValue, err
+	}
+
+	duration, _ := rdb.ExpireTime(a.ctx, key).Result()
+
+	if duration.Seconds() > 0 {
+		expire := time.Unix(duration.Milliseconds()/1000, 0)
+		expireAt = expire.String()
+	}
+
+	keyValue.Key = key
+	keyValue.Value = value
+	keyValue.ExpireAt = expireAt
+
+	return keyValue, err
+}
+
 func (a *App) SetKey(key string, value string) error {
 	err := rdb.Set(a.ctx, key, value, 0).Err()
 

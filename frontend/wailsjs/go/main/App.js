@@ -14,6 +14,10 @@ export function DeleteAllKeys() {
   return window['go']['main']['App']['DeleteAllKeys']();
 }
 
+export function GetKey(arg1) {
+  return window['go']['main']['App']['GetKey'](arg1);
+}
+
 export function GetKeys() {
   return window['go']['main']['App']['GetKeys']();
 }
