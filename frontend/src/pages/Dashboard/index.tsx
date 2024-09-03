@@ -2,14 +2,12 @@ import { ButtonIcon, DashboardBody, DashboardContainer, DashboardFooter, Dashboa
 
 import { Logout, GetKeys, SetKey, DelKey, DeleteAllKeys } from '../../../wailsjs/go/main/App';
 
-import { ArrowsClockwise, SignOut, ArrowFatLinesRight, Pencil, Trash, ClipboardText } from '@phosphor-icons/react';
+import { ArrowsClockwise, SignOut, ArrowFatLinesRight, Trash } from '@phosphor-icons/react';
 import { useEffect, useState } from "react";
-
-import { formatDistance } from "date-fns";
-import { ptBR } from "date-fns/locale";
 
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../components/Loading";
+import { DashboardGrid } from "./dashboard-grid";
 
 interface KeyValue {
   key: string;
@@ -101,14 +99,6 @@ export function Dashboard(){
     });
   }
 
-  function handleCopyValue(value: string) {
-    navigator.clipboard.writeText(value);
-  }
-
-  function handleCopyKey(key: string) {
-    navigator.clipboard.writeText(key);
-  }
-
   useEffect(() => {
     loadAllKey();
   }, []);
@@ -144,58 +134,7 @@ export function Dashboard(){
         </DashboardHeader>
 
         <DashboardBody>
-          { keyValues.map(keyValue => {
-            const expireAt = keyValue.expireAt.length ? formatDistance(new Date(keyValue.expireAt), new Date(), {
-              includeSeconds: true,
-              locale: ptBR
-            }) : "Infinito";
-
-            return (
-              <DashboardRow key={keyValue.key}>
-                <DashboardText style={{width: 200}}>
-                  {keyValue.key}
-                  <DashboardTextIcon 
-                    type="button"
-                    onClick={() => handleCopyKey(keyValue.key)}
-                  >
-                    <ClipboardText size={15} weight="fill" />
-                  </DashboardTextIcon>
-                </DashboardText>
-
-                <DashboardText style={{flex: 1}}>
-                  {keyValue.value}
-                </DashboardText>
-
-                <DashboardText style={{ width: 150 }}>
-                  {expireAt}
-                </DashboardText>
-
-                <ButtonIcon
-                  type="button"
-                  buttoncolor="blue"
-                  onClick={() => handleCopyValue(keyValue.value)}
-                >
-                  <ClipboardText size={20} weight="fill" />
-                </ButtonIcon>
-
-                <ButtonIcon
-                  type="button"
-                  buttoncolor="green"
-                  onClick={() => handleEdit(keyValue.key, keyValue.value)}
-                >
-                  <Pencil size={20} weight="fill" />
-                </ButtonIcon>
-
-                <ButtonIcon
-                  type="button"
-                  buttoncolor="red"
-                  onClick={() => handleRemove(keyValue.key)}
-                >
-                  <Trash size={20} weight="fill" />
-                </ButtonIcon>
-              </DashboardRow>
-            )
-          }) }
+          <DashboardGrid keyValues={keyValues} onEdit={handleEdit} onRemove={handleRemove} />
         </DashboardBody>
         
         <DashboardFooter onSubmit={handleSubmit}>

@@ -23,7 +23,7 @@ export const DashboardHeader = styled.header`
 export const DashboardBody = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
   padding: 1rem;
 
   max-height: calc(100vh - 4rem - 5.875rem);
@@ -33,23 +33,36 @@ export const DashboardBody = styled.main`
 `
 
 export const DashboardRow = styled.div`
-  border-radius: 8px;
+  border-radius: 0px;
   border: 1px solid ${props => props.theme['gray-400']};
-  background-color: ${props => props.theme['gray-300']};
+  background-color: ${props => props.theme['gray-500']};
 
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-
-  padding: 0.5rem;
+  gap: 1px;
 `;
 
-export const DashboardText = styled.div`
-  border-radius: 8px;
-  border: 1px solid ${props => props.theme['gray-200']};
-  background-color: ${props => props.theme['gray-100']};
+interface TextType {
+  type: 'header' | 'body';
+}
 
-  height: 2.375rem;
+export const DashboardText = styled.div<TextType>`
+  border-radius: 0px;
+  border: 1px solid ${props => props.theme['gray-200']};
+  
+  background-color: ${props => {
+    if (props.type === 'header') return props.theme['gray-600']
+    
+    return props.theme['gray-100'];
+  }};
+
+  color: ${props => {
+    if (props.type === 'header') return props.theme['gray-100']
+
+    return 'inherit';
+  }};
+
+  height: 3rem;
   overflow: hidden;
   
   padding: 0.5rem;
